@@ -32,6 +32,11 @@ Este archivo proporciona el contexto de autenticación para la aplicación, mane
 
 VITE_SUPABASE_URL=tu_supabase_url VITE_SUPABASE_ANON_KEY=tu_supabase_anon_key 4. Inicia la aplicación con `npm run dev`.
 
+## Crea un archivo .env con la siguientes variables y su respectivo valor:
+
+VITE_SUPABASE_URL
+VITE_SUPABASE_ANON_KEY
+
 ## Uso
 
 - Navega a `/signup` para registrarte.

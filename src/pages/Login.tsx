@@ -12,17 +12,16 @@ import {
 
 export const Login = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
+  const [message, setMessage] = useState("");
 
-  const handleSumit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    try {
-      await client.auth.signInWithPassword({
-        email: formData.email,
-        password: formData.password,
-      });
-    } catch (error) {
-      console.log(error);
-    }
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setMessage("");
+    const { error } = await client.auth.signInWithPassword({
+      email: formData.email,
+      password: formData.password,
+    });
+    if (error) setMessage(error.message);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -36,21 +35,24 @@ export const Login = () => {
         <CardDescription>With your password and email</CardDescription>
       </CardHeader>
       <CardContent>
-        <form onSubmit={handleSumit}>
+        <form onSubmit={handleSubmit}>
           <div className="grid items-center w-full gap-4">
             <Input
               type="email"
               placeholder="Email"
               name="email"
-              onChange={(e) => handleChange(e)}
+              value={formData.email}
+              onChange={handleChange}
             />
             <Input
               type="password"
               placeholder="Password"
               name="password"
-              onChange={(e) => handleChange(e)}
+              value={formData.password}
+              onChange={handleChange}
             />
             <Button type="submit">Login</Button>
+            {message && <p>{message}</p>}
           </div>
         </form>
       </CardContent>

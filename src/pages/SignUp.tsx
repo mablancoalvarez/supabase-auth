@@ -15,25 +15,19 @@ export const SignUp = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [message, setMessage] = useState("");
 
-  const handleSumit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    try {
-      const result = await client.auth.signUp({
-        email: formData.email,
-        password: formData.password,
-      });
-      setFormData({ email: "", password: "" });
-      console.log("result", result);
-      if (result.error) {
-        setMessage("Ha ocurrido un error. Por favor, inténtalo de nuevo.");
-      } else {
-        setMessage(
-          "Registro exitoso. Por favor, revisa tu correo electrónico."
-        );
-      }
-    } catch (error) {
-      console.log(error);
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setMessage("");
+    const { error } = await client.auth.signUp({
+      email: formData.email,
+      password: formData.password,
+    });
+    if (error) {
+      setMessage("Ha ocurrido un error. Por favor, inténtalo de nuevo.");
+      return;
     }
+    setFormData({ email: "", password: "" });
+    setMessage("Registro exitoso. Por favor, revisa tu correo electrónico.");
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -46,7 +40,7 @@ export const SignUp = () => {
         <CardDescription>To create an account</CardDescription>
       </CardHeader>
       <CardContent>
-        <form onSubmit={handleSumit}>
+        <form onSubmit={handleSubmit}>
           <div className="grid items-center w-full gap-4">
             <Input
               type="email"

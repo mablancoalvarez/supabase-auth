@@ -30,8 +30,6 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       data.subscription.unsubscribe();
     };
   }, []);
-  console.log("user post", user);
-
   return (
     <AuthContext.Provider value={{ user, auth }}>
       {children}
